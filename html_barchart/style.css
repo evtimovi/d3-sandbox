@@ -1,0 +1,10 @@
+#side-menu{
+	position: absolute
+}
+#chart {
+    position: absolute;
+    top: 30px;
+    left: 250px;
+    width: 900px;
+    margin: 25px auto;
+}
