@@ -46,7 +46,7 @@ d3.csv("scatterplot_data.csv", function(error, data) {
       .attr("x", width)
       .attr("y", -6)
       .style("text-anchor", "end")
-      .text("X Attrib");
+      .text("% Male Students in the District");
 
   svg.append("g")
       .attr("class", "y axis")
@@ -57,7 +57,7 @@ d3.csv("scatterplot_data.csv", function(error, data) {
       .attr("y", 6)
       .attr("dy", ".71em")
       .style("text-anchor", "end")
-      .text("Y Attrib")
+      .text("District Dropout Rate")
 
   var dots = svg.selectAll(".dot")
       .data(data)
