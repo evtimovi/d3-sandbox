@@ -6,7 +6,7 @@ d3.csv('data.csv', row, function(error, data){
     console.log('schools: ' + schools)
 
     var margin = {top: 50, right: 300, bottom: 60, left: 70};
-    width = 900 - margin.left - margin.right,
+    width = 1500 - margin.left - margin.right,
     height = 400 - margin.top - margin.bottom,
     spaceFactor = 5, //how big is the space relative to the bar
     barWidth = width/(((2*spaceFactor+1)/(2*spaceFactor))*data.length + 1),
@@ -97,7 +97,9 @@ d3.csv('data.csv', row, function(error, data){
         .attr('transform', 'translate(' + space +','  + height +')' )
         .call(xAxis)
 
-    d3.select('.x.axis').selectAll("g text").attr("font-size", (width*3)/112 + "px")
+    var xAxisTextSize = (width*3)/112;
+
+    d3.select('.x.axis').selectAll("g text").attr("font-size", xAxisTextSize + "px")
 
     var yAxis = d3.svg.axis()
         .scale(yScale)
@@ -134,9 +136,10 @@ d3.csv('data.csv', row, function(error, data){
     var xLabel = chart
                 .append('g')
                 .attr('id', 'xLabel')
-                .attr("transform", "translate(" + xScaleRange[xScaleRange.length/2-1] + ',' + (height + margin.bottom*(3/4)) + ')')
+                .attr("transform", "translate(" + 0.35*width + ',' + (height + margin.bottom) + ')')
                 .append('text')
                     .text('Academic Year')
+                    .attr('font-size', xAxisTextSize)
 
     var yLabel = chart.append('g')
                 .attr('id', 'yLabel')
