@@ -3,7 +3,7 @@ d3.csv('data.csv', row, function(error, data){
     var schools = data.map((v)=>v.school).filter((v, i, a)=> a.indexOf(v)===i);
     console.log('schools: ' + schools)
 
-    var margin = {top: 20, right: 30, bottom: 30, left: 40};
+    var margin = {top: 50, right: 30, bottom: 30, left: 40};
     width = 700 - margin.left - margin.right,
     height = 300 - margin.top - margin.bottom,
     spaceFactor = 5, //how big is the space relative to the bar
