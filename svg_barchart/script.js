@@ -1,7 +1,7 @@
 d3.csv('data.csv', row, function(error, data){
     
     var margin = {top: 20, right: 30, bottom: 30, left: 40};
-    width = 400 - margin.left - margin.right,
+    width = 700 - margin.left - margin.right,
     height = 300 - margin.top - margin.bottom,
     spaceFactor = 5, //how big is the space relative to the bar
     barWidth = width/(((2*spaceFactor+1)/(2*spaceFactor))*data.length + 1),
@@ -26,8 +26,9 @@ d3.csv('data.csv', row, function(error, data){
                 .domain(xScaleDom)
                 .range(xScaleRange)
 
+   
     var yScale = d3.scale.linear()
-    .range([0, height])
+    .range([height, 0])
     .domain([0, d3.max(data, function(d){return +d.value;})]);
 
 
@@ -43,11 +44,11 @@ d3.csv('data.csv', row, function(error, data){
         .enter().append("g")
             .attr("transform", function(d, i){
                 return "translate(" + (i*barWidth + (i*space) + (space*(Math.abs((i%2)-1)))) + "," + 
-                    (height - yScale(d.value)) +")";
+                    (yScale(d.value)) +")";
             });
 
     bar.append("rect")
-        .attr("height", function(d){return yScale(d.value)})
+        .attr("height", function(d){return height-yScale(d.value)})
         .attr("width", barWidth)
         .attr("fill", function(d){
             if (d.school === 'Trinity East El Sch')
@@ -71,11 +72,18 @@ d3.csv('data.csv', row, function(error, data){
     var xAxis = d3.svg.axis()
                 .scale(xScale)
                 .orient("bottom")
-
     chart.append('g')
         .attr('class', 'x axis')
         .attr('transform', 'translate(' + space +','  + height +')' )
         .call(xAxis)
+
+    var yAxis = d3.svg.axis()
+        .scale(yScale)
+        .orient("left");
+    chart.append("g")
+        .attr("class", "y axis")
+        .attr("transform", "translate(" + space/2 + ",0)")
+        .call(yAxis);
 });
 
 function row(d){
