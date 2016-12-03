@@ -1,41 +1,37 @@
-var margin = {top: 20, right: 20, bottom: 30, left: 40},
+d3.csv("scatterplot_data.csv", row, function(error, data) {
+  if (error) throw error;
+  scatterplot(data);
+});
+
+var scatterplot = function(data){
+
+  var margin = {top: 20, right: 20, bottom: 30, left: 40},
     width = 700 - margin.left - margin.right,
     height = 400 - margin.top - margin.bottom;
 
-var x = d3.scale.linear()
-    .range([0, width]);
+  var x = d3.scale.linear()
+      .range([0, width]);
 
-var y = d3.scale.linear()
-    .range([height, 0]);
+  var y = d3.scale.linear()
+      .range([height, 0]);
 
-var color = d3.scale.category10();
+  var color = d3.scale.category10();
 
-var xAxis = d3.svg.axis()
-    .scale(x)
-    .orient("bottom");
+  var xAxis = d3.svg.axis()
+      .scale(x)
+      .orient("bottom");
 
-var yAxis = d3.svg.axis()
-    .scale(y)
-    .orient("left");
+  var yAxis = d3.svg.axis()
+      .scale(y)
+      .orient("left");
 
-var svg = d3.select("#chart").append("svg")
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
-  .append("g")
-    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-d3.csv("scatterplot_data.csv", function(error, data) {
-  if (error) throw error;
-
-  data.forEach(function(d) {
-    d.yValue = +d.yValue;
-	console.log(d.yValue);
-    d.xValue = +d.xValue;
-	console.log(d.xValue);
-  });
-
-  x.domain(d3.extent(data, function(d) { return d.xValue; })).nice();
-  y.domain(d3.extent(data, function(d) { return d.yValue; })).nice();
+  var svg = d3.select("#chart").append("svg")
+      .attr("width", width + margin.left + margin.right)
+      .attr("height", height + margin.top + margin.bottom)
+    .append("g")
+      .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+     x.domain(d3.extent(data, function(d) { return d.xValue; })).nice();
+    y.domain(d3.extent(data, function(d) { return d.yValue; })).nice();
 
   svg.append("g")
       .attr("class", "x axis")
@@ -97,5 +93,11 @@ d3.csv("scatterplot_data.csv", function(error, data) {
         })
         .duration(500)
         .ease('elastic');
+};
 
-});
+function row(d){
+  return  {
+    yValue: +d.yValue,
+    xValue: +d.xValue
+  };
+}

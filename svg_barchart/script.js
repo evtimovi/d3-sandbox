@@ -1,5 +1,11 @@
 d3.csv('data.csv', row, function(error, data){
-    
+    if (error) throw error;
+    barchart(data);
+});
+
+
+var barchart = function(data){
+
     var barColors = ['#2176C7','#D11C24'];
     var highlightColor = '#cde03c';
 
@@ -160,8 +166,7 @@ d3.csv('data.csv', row, function(error, data){
         })
         .duration(750)
         .ease('elastic');
-});
-
+};
 
 function row(d){
    return {
