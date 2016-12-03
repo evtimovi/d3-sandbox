@@ -1,12 +1,13 @@
 d3.csv('data.csv', row, function(error, data){
     
     var barColors = ['#2176C7','#D11C24'];
+    var highlightColor = '#cde03c';
 
     var schools = data.map((v)=>v.school).filter((v, i, a)=> a.indexOf(v)===i);
     console.log('schools: ' + schools)
 
     var margin = {top: 50, right: 300, bottom: 60, left: 70};
-    width = 1500 - margin.left - margin.right,
+    width = 900 - margin.left - margin.right,
     height = 400 - margin.top - margin.bottom,
     spaceFactor = 5, //how big is the space relative to the bar
     barWidth = width/(((2*spaceFactor+1)/(2*spaceFactor))*data.length + 1),
@@ -75,17 +76,18 @@ d3.csv('data.csv', row, function(error, data){
                     .style('left', (d3.event.pageX - 35) + 'px')
                     .style('top',  (d3.event.pageY - 30) + 'px')
 
+             
 
                 tempColor = this.style.fill;
                 d3.select(this)
                     .style('opacity', .5)
-                    .style('fill', '#cde03c')
             })
 
             .on('mouseout', function(d) {
                 d3.select(this)
                     .style('opacity', 1)
                     .style('fill', tempColor)
+                tooltip.transition().style('opacity',0)
             });
 
 
@@ -136,7 +138,7 @@ d3.csv('data.csv', row, function(error, data){
     var xLabel = chart
                 .append('g')
                 .attr('id', 'xLabel')
-                .attr("transform", "translate(" + 0.35*width + ',' + (height + margin.bottom) + ')')
+                .attr("transform", "translate(" + 0.35*width + ',' + (height + margin.bottom*0.75) + ')')
                 .append('text')
                     .text('Academic Year')
                     .attr('font-size', xAxisTextSize)
@@ -147,7 +149,7 @@ d3.csv('data.csv', row, function(error, data){
                 .append('text')
                     .text('Value')
                     .attr('transform', 'rotate(-90)')
-
+                    
     bars.transition()
         .attr("height", function(d){return height - yScale(d.value)})
         .attr("y", function(d){return yScale(d.value)})
