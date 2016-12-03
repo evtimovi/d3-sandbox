@@ -31,7 +31,11 @@ d3.csv('data.csv', row, function(error, data){
     .range([height, 0])
     .domain([0, d3.max(data, function(d){return +d.value;})]);
 
-
+    var tooltip = d3.select('body').append('div')
+        .style('position', 'absolute')
+        .style('padding', '0 10px')
+        .style('background', 'white')
+        .style('opacity', 0)
 
     var chart = d3.select('#chart')
       .attr("width", width + margin.left + margin.right)
@@ -55,38 +59,29 @@ d3.csv('data.csv', row, function(error, data){
                     {
                         return '#D11C24';
                     }
-            });
-/*
-    var bar = chart.selectAll("g")
-        .data(data)
-        .enter().append("g")
-            .attr("transform", function(d, i){
-                return "translate(" + (i*barWidth + (i*space) + (space*(Math.abs((i%2)-1)))) + "," + 
-                    (yScale(d.value)) +")";
-            });
-*/
-/*    var rects = bar.append("rect")
-            .attr("width", barWidth)
-            .attr("height", 0)
-            .attr("fill", function(d){
-                if (d.school === 'Trinity East El Sch')
-                {
-                    return '#2176C7';
-                }
-                else
-                {
-                    return '#D11C24';
-                }
-            });
-*/
+            })
+            .on('mouseover', function(d) {
+
+                tooltip.transition()
+                    .style('opacity', .9)
+
+                tooltip.html(d.value)
+                    .style('left', (d3.event.pageX - 35) + 'px')
+                    .style('top',  (d3.event.pageY - 30) + 'px')
 
 
-//    bar.append("text")
-//        .attr("y", function(d){ return height - yScale(d.value) + 20;})
-//        .attr("x", 0)
-//        .attr('fill', 'white')
-//        .attr('font', '5 sans-serif')
-//        .text(function(d){ return d.value;});
+                tempColor = this.style.fill;
+                d3.select(this)
+                    .style('opacity', .5)
+                    .style('fill', '#595AB7')
+            })
+
+            .on('mouseout', function(d) {
+                d3.select(this)
+                    .style('opacity', 1)
+                    .style('fill', tempColor)
+            });
+
 
     var xAxis = d3.svg.axis()
                 .scale(xScale)
@@ -112,7 +107,6 @@ d3.csv('data.csv', row, function(error, data){
         })
         .duration(750)
         .ease('elastic');
-
 });
 
 
