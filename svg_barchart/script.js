@@ -1,9 +1,11 @@
 d3.csv('data.csv', row, function(error, data){
     
+    var barColors = ['#2176C7','#D11C24'];
+
     var schools = data.map((v)=>v.school).filter((v, i, a)=> a.indexOf(v)===i);
     console.log('schools: ' + schools)
 
-    var margin = {top: 50, right: 30, bottom: 30, left: 40};
+    var margin = {top: 50, right: 150, bottom: 30, left: 40};
     width = 700 - margin.left - margin.right,
     height = 300 - margin.top - margin.bottom,
     spaceFactor = 5, //how big is the space relative to the bar
@@ -56,11 +58,11 @@ d3.csv('data.csv', row, function(error, data){
           .attr("fill", function(d){
                     if (d.school === schools[0])
                     {
-                        return '#2176C7';
+                        return barColors[0];
                     }
                     else
                     {
-                        return '#D11C24';
+                        return barColors[1];
                     }
             })
             .on('mouseover', function(d) {
@@ -101,6 +103,30 @@ d3.csv('data.csv', row, function(error, data){
         .attr("class", "y axis")
         .attr("transform", "translate(" + space/2 + ",0)")
         .call(yAxis);
+
+    var legendBarWidth = margin.right/5,
+    legendBarHeight = height/15;
+
+    var legend = d3.select("#chart")
+        .append("g")
+        .attr("transform", "translate(" + (width+margin.left) + "," + margin.top +")")
+        .attr("id", "legend")
+
+    var legendGroups = legend.selectAll("g")
+        .data(schools)
+        .enter().append("g")
+        .attr("transform", function(d, i){return "translate(0," + i*(legendBarHeight+5) + ")";});
+
+    
+    legendGroups.append("rect")
+            .attr("fill", function(d, i){ return barColors[i%2];})
+            .attr("width", legendBarWidth)
+            .attr("height", legendBarHeight)
+            .attr("transform", "translate(0,0)")
+    legendGroups.append("text")
+            .attr("transform", "translate(" + (legendBarWidth+3) +","+ 10 +")" )
+            .attr("font-size", "10px")
+            .text(function(d){return d;})
 
     bars.transition()
         .attr("height", function(d){return height - yScale(d.value)})
