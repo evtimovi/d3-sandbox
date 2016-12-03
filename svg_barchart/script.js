@@ -7,7 +7,7 @@ d3.csv('data.csv', row, function(error, data){
     console.log('schools: ' + schools)
 
     var margin = {top: 50, right: 300, bottom: 60, left: 70};
-    width = 900 - margin.left - margin.right,
+    width = 700 - margin.left - margin.right,
     height = 400 - margin.top - margin.bottom,
     spaceFactor = 5, //how big is the space relative to the bar
     barWidth = width/(((2*spaceFactor+1)/(2*spaceFactor))*data.length + 1),
