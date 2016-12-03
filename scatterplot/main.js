@@ -1,8 +1,7 @@
 var margin = {top: 20, right: 20, bottom: 30, left: 40},
-    width = 960 - margin.left - margin.right,
-    height = 500 - margin.top - margin.bottom;
+    width = 700 - margin.left - margin.right,
+    height = 400 - margin.top - margin.bottom;
 
-	d3.select('body').append('div')
 var x = d3.scale.linear()
     .range([0, width]);
 
@@ -19,7 +18,7 @@ var yAxis = d3.svg.axis()
     .scale(y)
     .orient("left");
 
-var svg = d3.select("body").append("svg")
+var svg = d3.select("#chart").append("svg")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
   .append("g")
@@ -60,14 +59,14 @@ d3.csv("scatterplot_data.csv", function(error, data) {
       .style("text-anchor", "end")
       .text("Y Attrib")
 
-  svg.selectAll(".dot")
+  var dots = svg.selectAll(".dot")
       .data(data)
     .enter().append("circle")
       .attr("class", "dot")
-      .attr("r", 3.5)
-      .attr("cx", function(d) { return x(d.xValue); })
-      .attr("cy", function(d) { return y(d.yValue); })
-      .style("fill", color.black);
+      .attr("r", 0)
+      .attr("cx", (Math.random()*width))
+      .attr("cy", (Math.random()*height))
+      .style("fill", color.white);
 
   var legend = svg.selectAll(".legend")
       .data(color.domain())
@@ -87,5 +86,16 @@ d3.csv("scatterplot_data.csv", function(error, data) {
       .attr("dy", ".35em")
       .style("text-anchor", "end")
       .text(function(d) { return d; });
+
+  dots.transition()
+    .attr("r", 3.5)
+    .attr("cx", function(d) { return x(d.xValue); })
+    .attr("cy", function(d) { return y(d.yValue); })
+    .style("fill", color.black)
+    .delay(function(d, i) {
+            return i * 5;
+        })
+        .duration(500)
+        .ease('elastic');
 
 });
