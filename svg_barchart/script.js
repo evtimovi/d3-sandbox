@@ -1,5 +1,8 @@
 d3.csv('data.csv', row, function(error, data){
     
+    var schools = data.map((v)=>v.school).filter((v, i, a)=> a.indexOf(v)===i);
+    console.log('schools: ' + schools)
+
     var margin = {top: 20, right: 30, bottom: 30, left: 40};
     width = 700 - margin.left - margin.right,
     height = 300 - margin.top - margin.bottom,
@@ -51,7 +54,7 @@ d3.csv('data.csv', row, function(error, data){
           .attr('x', function(d, i){return (i*barWidth + (i*space) + (space*(Math.abs((i%2)-1))))})
           .attr('y', height)
           .attr("fill", function(d){
-                    if (d.school === 'Trinity East El Sch')
+                    if (d.school === schools[0])
                     {
                         return '#2176C7';
                     }
