@@ -5,9 +5,9 @@ d3.csv('data.csv', row, function(error, data){
     var schools = data.map((v)=>v.school).filter((v, i, a)=> a.indexOf(v)===i);
     console.log('schools: ' + schools)
 
-    var margin = {top: 50, right: 150, bottom: 30, left: 40};
-    width = 700 - margin.left - margin.right,
-    height = 300 - margin.top - margin.bottom,
+    var margin = {top: 50, right: 300, bottom: 60, left: 70};
+    width = 900 - margin.left - margin.right,
+    height = 400 - margin.top - margin.bottom,
     spaceFactor = 5, //how big is the space relative to the bar
     barWidth = width/(((2*spaceFactor+1)/(2*spaceFactor))*data.length + 1),
     space = barWidth/spaceFactor;
@@ -46,7 +46,8 @@ d3.csv('data.csv', row, function(error, data){
       .attr("width", width + margin.left + margin.right)
       .attr("height", height + margin.top + margin.bottom)
       .append("g")
-      .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+        .attr("id", "bars")
     
     var bars = chart.selectAll('rect')
       .data(data)
@@ -96,6 +97,8 @@ d3.csv('data.csv', row, function(error, data){
         .attr('transform', 'translate(' + space +','  + height +')' )
         .call(xAxis)
 
+    d3.select('.x.axis').selectAll("g text").attr("font-size", (width*3)/112 + "px")
+
     var yAxis = d3.svg.axis()
         .scale(yScale)
         .orient("left");
@@ -104,7 +107,7 @@ d3.csv('data.csv', row, function(error, data){
         .attr("transform", "translate(" + space/2 + ",0)")
         .call(yAxis);
 
-    var legendBarWidth = margin.right/5,
+    var legendBarWidth = 30,
     legendBarHeight = height/15;
 
     var legend = d3.select("#chart")
@@ -124,9 +127,23 @@ d3.csv('data.csv', row, function(error, data){
             .attr("height", legendBarHeight)
             .attr("transform", "translate(0,0)")
     legendGroups.append("text")
-            .attr("transform", "translate(" + (legendBarWidth+3) +","+ 10 +")" )
-            .attr("font-size", "10px")
+            .attr("transform", "translate(" + (legendBarWidth+3) +","+ 12 +")" )
+            .attr("font-size", 12 + "px")
             .text(function(d){return d;})
+
+    var xLabel = chart
+                .append('g')
+                .attr('id', 'xLabel')
+                .attr("transform", "translate(" + xScaleRange[xScaleRange.length/2-1] + ',' + (height + margin.bottom*(3/4)) + ')')
+                .append('text')
+                    .text('Academic Year')
+
+    var yLabel = chart.append('g')
+                .attr('id', 'yLabel')
+                .attr('transform', 'translate(-' + margin.left/2 + ',' + height*0.6 + ')')
+                .append('text')
+                    .text('Value')
+                    .attr('transform', 'rotate(-90)')
 
     bars.transition()
         .attr("height", function(d){return height - yScale(d.value)})
