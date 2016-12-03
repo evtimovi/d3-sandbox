@@ -37,8 +37,26 @@ d3.csv('data.csv', row, function(error, data){
       .attr("width", width + margin.left + margin.right)
       .attr("height", height + margin.top + margin.bottom)
       .append("g")
-        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+      .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
     
+    var bars = chart.selectAll('rect')
+      .data(data)
+      .enter().append('rect')
+          .attr("width", barWidth)
+          .attr("height", 0)
+          .attr('x', function(d, i){return (i*barWidth + (i*space) + (space*(Math.abs((i%2)-1))))})
+          .attr('y', height)
+          .attr("fill", function(d){
+                    if (d.school === 'Trinity East El Sch')
+                    {
+                        return '#2176C7';
+                    }
+                    else
+                    {
+                        return '#D11C24';
+                    }
+            });
+/*
     var bar = chart.selectAll("g")
         .data(data)
         .enter().append("g")
@@ -46,21 +64,22 @@ d3.csv('data.csv', row, function(error, data){
                 return "translate(" + (i*barWidth + (i*space) + (space*(Math.abs((i%2)-1)))) + "," + 
                     (yScale(d.value)) +")";
             });
+*/
+/*    var rects = bar.append("rect")
+            .attr("width", barWidth)
+            .attr("height", 0)
+            .attr("fill", function(d){
+                if (d.school === 'Trinity East El Sch')
+                {
+                    return '#2176C7';
+                }
+                else
+                {
+                    return '#D11C24';
+                }
+            });
+*/
 
-    bar.append("rect")
-        .attr("height", function(d){return height-yScale(d.value)})
-        .attr("width", barWidth)
-        .attr("fill", function(d){
-            if (d.school === 'Trinity East El Sch')
-            {
-                return '#2176C7';
-            }
-            else
-            {
-                return '#D11C24';
-            }
-
-        });
 
 //    bar.append("text")
 //        .attr("y", function(d){ return height - yScale(d.value) + 20;})
@@ -84,7 +103,18 @@ d3.csv('data.csv', row, function(error, data){
         .attr("class", "y axis")
         .attr("transform", "translate(" + space/2 + ",0)")
         .call(yAxis);
+
+    bars.transition()
+        .attr("height", function(d){return height - yScale(d.value)})
+        .attr("y", function(d){return yScale(d.value)})
+        .delay(function(d, i) {
+            return i * 50;
+        })
+        .duration(750)
+        .ease('elastic');
+
 });
+
 
 function row(d){
    return {
