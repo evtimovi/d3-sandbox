@@ -43,7 +43,7 @@ d3.csv('data.csv', row, function(error, data){
         .style('background', 'white')
         .style('opacity', 0)
 
-    var chart = d3.select('#chart')
+    var chart = d3.select('#chart').append('svg')
       .attr("width", width + margin.left + margin.right)
       .attr("height", height + margin.top + margin.bottom)
       .append("g")
@@ -114,7 +114,7 @@ d3.csv('data.csv', row, function(error, data){
     var legendBarWidth = 30,
     legendBarHeight = height/15;
 
-    var legend = d3.select("#chart")
+    var legend = chart
         .append("g")
         .attr("transform", "translate(" + (width+margin.left) + "," + margin.top +")")
         .attr("id", "legend")
