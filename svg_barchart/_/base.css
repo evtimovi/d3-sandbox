@@ -22,18 +22,20 @@ html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abb
   green          : #738A05; */
  
 body {
-  font-family: "Exo 2", "Helvetica Neue", Helvetica, sans-serif;
+  /*font-family: "Exo 2", "Helvetica Neue", Helvetica, sans-serif;
   font-weight: 300;
-  font-size: 1.2em;
-  line-height: 1.2em;
+  font-size: 1.2em; 
+  line-height: 1.2em;*/
   background: #FDF6E3;
   color: #475B62;
 }
- 
+
+/*
 strong {
   font-weight: 600;
 }
- 
+*/
+
 h1, h2, h3, h4, h5, h6 {
   font-family: 'Roboto Slab', "Helvetica Neue", Helvetica, sans-serif;
   font-weight: 700;
@@ -42,17 +44,19 @@ h1, h2, h3, h4, h5, h6 {
   margin-bottom: .4em;
 }
  
+/*
 p {
   margin-bottom: .5em;
 }
- 
+
+*/
 .container {
   width: 80%;
   max-width: 1200px;
   margin: 0 auto;
   margin-top:10px;
 }
- 
+/*
 @media all and (max-width: 500px) {
   h2 {
     padding-left: 10px;
@@ -66,3 +70,4 @@ p {
 #graphic {
   margin: 0 auto;
 }
+*/
