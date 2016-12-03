@@ -76,7 +76,7 @@ d3.csv('data.csv', row, function(error, data){
                 tempColor = this.style.fill;
                 d3.select(this)
                     .style('opacity', .5)
-                    .style('fill', '#595AB7')
+                    .style('fill', '#cde03c')
             })
 
             .on('mouseout', function(d) {
