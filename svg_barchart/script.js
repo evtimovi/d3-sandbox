@@ -101,7 +101,7 @@ d3.csv('data.csv', row, function(error, data){
 
     var xAxisTextSize = (width*3)/112;
 
-    d3.select('.x.axis').selectAll("g text").attr("font-size", xAxisTextSize + "px")
+    //d3.select('.x.axis').selectAll("g text").attr("font-size", xAxisTextSize + "px")
 
     var yAxis = d3.svg.axis()
         .scale(yScale)
@@ -138,17 +138,19 @@ d3.csv('data.csv', row, function(error, data){
     var xLabel = chart
                 .append('g')
                 .attr('id', 'xLabel')
-                .attr("transform", "translate(" + 0.35*width + ',' + (height + margin.bottom*0.75) + ')')
+                .attr("transform", "translate(" + 0 + ',' + (height + margin.bottom*0.75) + ')')
                 .append('text')
                     .text('Academic Year')
-                    .attr('font-size', xAxisTextSize)
+                    .attr('text-anchor', 'start')
+                    //.attr('font-size', xAxisTextSize)
 
     var yLabel = chart.append('g')
                 .attr('id', 'yLabel')
-                .attr('transform', 'translate(-' + margin.left/2 + ',' + height*0.6 + ')')
+                .attr('transform', 'translate(-' + margin.left/2 + ',' + height + ')')
                 .append('text')
-                    .text('Value')
+                    .text('% Male Students')
                     .attr('transform', 'rotate(-90)')
+                    .attr('text-anchor', 'start')
                     
     bars.transition()
         .attr("height", function(d){return height - yScale(d.value)})
